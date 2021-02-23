@@ -27,3 +27,5 @@ void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,cha
 char* int2str(int val);
 
 vec2 CreateVec2(uint32_t x , uint32_t y);
+
+void VGE_ClearCursorPos();

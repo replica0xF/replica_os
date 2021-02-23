@@ -116,7 +116,13 @@ void VGE_PrintCharPos(struct stivale2_struct_tag_framebuffer* information, char 
 	}
 }
 	
-
+void VGE_ClearCursorPos()
+{
+	cursor_xp = 0;
+	cursor_yp = 0;
+	cursor_x = 0;
+	cursor_y = 0;
+}
 
 
 void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,char* str , int letter_spacing,  uint32_t color , vec2 pos)
