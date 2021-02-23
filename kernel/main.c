@@ -1,4 +1,5 @@
 #include "main.h"
+#include "devices/video/vge.h"
 #include <stddef.h>
 
 static uint8_t stack[4098];
@@ -56,10 +57,13 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 		{
 			asm("hlt");
 		}	
-	}
+	} 
 	
-	
-	
+
+	VGE_SetBackgroundColor(fb_hdr_tag, rgb2hex(45,49,61));	
+	 
+	VGE_PrintString(fb_hdr_tag , "Hello, World!\nWelcome to Replica OS", 7, rgb2hex(217, 226, 250));
+
 	for (;;)
 	{
 		asm("hlt");
