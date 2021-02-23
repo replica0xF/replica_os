@@ -9,7 +9,7 @@ git clone https://github.com/replica0xf/replica_os
 ```
 
 --- 
-Lisence & Copyright
+# Lisence & Copyright
 (c) replica0xf 2021
 
 
