@@ -1,5 +1,6 @@
 #include "main.h"
 #include "devices/video/vge.h"
+#include "io/io.h"
 #include <stddef.h>
 
 
@@ -46,6 +47,7 @@ void* stivale2_get_tag(struct stivale2_struct * stivale2_struct , uint64_t id)
     }
 } 
  
+
 void kernel_main(struct stivale2_struct* stivale2_struct)
 {
 
@@ -58,6 +60,7 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 		}	
 	} 
 	//struct stivale2_struct_tag_framebuffer* fb, char* message , int err_code
+ 	//kernel_panic(fb_hdr_tag, "Invoked." , 4);
  
 
 	VGE_SetBackgroundColor(fb_hdr_tag, rgb2hex(45,49,61));	
