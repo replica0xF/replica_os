@@ -13,7 +13,7 @@ echfs-utils -g -p0 image.hdd quick-format 512
  
 # Copy config file and kernel file(s) over into the image.
 echfs-utils -g -p0 image.hdd import limine.cfg limine.cfg
-echfs-utils -g -p0 image.hdd import replica.elf replica.elf
+echfs-utils -g -p0 image.hdd import myos.elf myos.elf
  
 # Finally, install Limine onto the image.
 limine-install image.hdd
