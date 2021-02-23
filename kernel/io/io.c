@@ -1,9 +1,9 @@
 #include "io.h"
 
-void outb(int port, unsigned char val)s
+void outb(int port, unsigned char val)
 {
 	__asm__ volatile ( "outb %0, %1" : : "a"(val) , "Nd"(port) );
-}
+}  
 unsigned char inb(int port){
 	unsigned char return_t = 0;
 	__asm__ volatile ( "inb %1, %0" 

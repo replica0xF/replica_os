@@ -141,3 +141,58 @@ void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,cha
 
 }
 
+void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , int y0 , int x1, int y1, uint32_t color)
+{
+	uint32_t dx = x1 - x0;
+	uint32_t dy = y1 - y0;
+	uint32_t D = 2 * dy - dx;
+	uint32_t y = y0;
+
+	for (int x = x0; x < x1; x++)
+	{
+		VGE_Pixel(information,x,y,color);
+		if (D > 0)
+		{
+			y = y+ 1;
+			D = D - 2 * dx;
+		}
+		D = D + 2* dy;
+	}
+}
+
+void VGE_circle__(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int x, int y,  uint32_t color)
+{
+ 
+
+	VGE_Pixel(information,xc+x, yc+y, color);
+    VGE_Pixel(information,xc-x, yc+y, color);
+    VGE_Pixel(information,xc+x, yc-y, color);
+    VGE_Pixel(information,xc-x, yc-y, color);
+    VGE_Pixel(information,xc+y, yc+x, color);
+    VGE_Pixel(information,xc-y, yc+x, color);
+    VGE_Pixel(information,xc+y, yc-x, color);
+    VGE_Pixel(information,xc-y, yc-x, color);
+}
+
+void VGE_DrawCircle(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int radius,uint32_t color)
+{
+	int x = 0, y = radius;
+	int d = 3 - 2 * radius;
+	VGE_circle__(information, xc,yc,x,y,color);
+	while (y >= x)
+	{
+		x++;
+
+		if (d > 0)
+		{
+			y--;
+			d = d + 4 * (x-y) + 10;
+		}
+		else
+		{
+			d = d + 4 * x + 6;
+		}
+		VGE_circle__(information,xc,yc,x,y,color);
+
+	}
+}

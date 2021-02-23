@@ -4,4 +4,4 @@ make
 ./create.sh
 echo done ----
  
-qemu-system-x86_64 image.hdd -soundhw pcspk
+qemu-system-x86_64 image.hdd

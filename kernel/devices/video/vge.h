@@ -1,6 +1,5 @@
 #pragma once 
 #include "../../boot/stivale2.h"
-
 typedef struct vec
 {
 	uint32_t x;
@@ -29,3 +28,8 @@ char* int2str(int val);
 vec2 CreateVec2(uint32_t x , uint32_t y);
 
 void VGE_ClearCursorPos();
+
+void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , int y0 , int x1, int y1, uint32_t color);
+
+void VGE_circle__(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int x, int y,  uint32_t color);
+void VGE_DrawCircle(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int radius,uint32_t color);
