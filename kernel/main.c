@@ -80,11 +80,11 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 	VGE_Rectangle(fb_hdr_tag , 0 , height - 70, width / 2, 70 , rgb2hex(255,154,154));
 
  	VGE_DrawCircle(fb_hdr_tag , 600,600,50, rgb2hex(255,255,255));
+  
+  	InitGDT();
 	VGE_DrawCircle(fb_hdr_tag , 400,400,50, rgb2hex(255,255,255));
- 
- 	Lobster_Log(fb_hdr_tag, 0, "GDT:");
- 	InitGDT();
- 	Lobster_Log(fb_hdr_tag, LOBSTER_INFO, " [LOADED]");
+
+ 	Lobster_Log(fb_hdr_tag, 0, " [LOADED] ");
  
   	//  	815 + 2x + x = 1080  
 
