@@ -59,7 +59,8 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 		}	
 	} 
 	//struct stivale2_struct_tag_framebuffer* fb, char* message , int err_code
- 
+  	InitGDT();
+
 
  	VGE_SetBackgroundColor(fb_hdr_tag, rgb2hex(45,49,61));	
 	uint32_t width,height;
@@ -81,8 +82,7 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 
  	VGE_DrawCircle(fb_hdr_tag , 600,600,50, rgb2hex(255,255,255));
   
-  	InitGDT();
-	VGE_DrawCircle(fb_hdr_tag , 400,400,50, rgb2hex(255,255,255));
+  	VGE_DrawCircle(fb_hdr_tag , 400,400,50, rgb2hex(255,255,255));
 
  	Lobster_Log(fb_hdr_tag, 0, " [LOADED] ");
  

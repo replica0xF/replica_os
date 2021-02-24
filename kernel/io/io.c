@@ -9,6 +9,6 @@ unsigned char inb(int port){
 	__asm__ volatile ( "inb %1, %0" 
 					:  "=a"(return_t) 
 					: "Nd"(port)
-				  );
+			  );
 	return return_t;
 }

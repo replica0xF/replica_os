@@ -23,10 +23,21 @@ void LoadGDT()
 		 "mov %%ax, %%ss\n"
 		 "mov %%ax, %%fs\n"
 		 "mov %%ax, %%gs\n"
+		 
+		"mov %%rsp, %%rax\n"
+		"push $0x10\n"
+		"push %%rax\n"
 		
-		 :
+		"pushf\n" // push flags to stack
+		"push $0x8\n" // segment = 0x8:1
+		"push $1f\n" // a/k/a = SEGMENT : OUTSET
+		"iretq\n" // IRETQ 
+		"1:\n"
+		"ret\n"		
+	
 		:
-		: "rax", "memory"
+		:
+	        :	"rax", "memory"
 	);	
 	
 
@@ -35,7 +46,7 @@ void LoadGDT()
 void InitGDT()
 {
 
-	gdt[1] = (struct gdt_descriptor){ .access = 0b10011010, .flags = 0b11001111, .limit_low16 = 0xFFFF , .base_low16 = 0x0000 , .base_mid16 = 0x00, .base_high = 0x00}; // code segment (cs)
-	gdt[2] =  (struct gdt_descriptor){ .access = 0b10010010, .flags = 0b11001111, .limit_low16 = 0xFFFF , .base_low16 = 0x0000 , .base_mid16 = 0x00, .base_high = 0x00}; // data segment (ds)
+	gdt[1] = (struct gdt_descriptor){ .access = 0b10011010, .flags = 0b00100000}; // code segment (cs)
+	gdt[2] =  (struct gdt_descriptor){ .access = 0b10010010, .flags = 0b00000000}; // data segment (ds)
 	LoadGDT(); 
 }

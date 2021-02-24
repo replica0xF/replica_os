@@ -10,7 +10,7 @@ cd replica_os
 ```
 ---
 # TODOS
-- GDT
+
 - IDT
 - Keyboard 
 ---
