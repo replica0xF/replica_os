@@ -10,6 +10,9 @@ static uint32_t cursor_xp = 0;
 static uint32_t cursor_yp = 0;
 
 
+static uint32_t vge_text_buffer_width = 8;
+static uint32_t vge_text_buffer_height = 8;
+
 uint32_t rgb2hex(int r, int g, int b)
 {
 	return (uint32_t)((r << 16) | (g << 8) | (b << 0));
@@ -48,9 +51,9 @@ void VGE_SetBackgroundColor(struct stivale2_struct_tag_framebuffer* information,
 void VGE_PrintChar(struct stivale2_struct_tag_framebuffer* information, char c , uint32_t color)
 {
 	uint32_t ix , iy;
-	for (ix = 0; ix < 8;ix++)
+	for (ix = 0; ix < (uint32_t)vge_text_buffer_width;ix++)
 	{
-		for (iy = 0;iy < 8;iy++)
+		for (iy = 0;iy < (uint32_t)vge_text_buffer_height;iy++)
 		{
 			if (font[(uint32_t)(c)][iy] >> ix & 1){
 			VGE_Pixel(information,ix  + cursor_x ,iy  + cursor_y ,color);
@@ -94,7 +97,7 @@ void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* 
 		VGE_PrintChar(information , str[i], color);
 		} else
 		{
-			cursor_y += letter_spacing  + 7; 
+			cursor_y += letter_spacing  + vge_text_buffer_height + 1; 
 			cursor_x = 0;
 		}
 		i++;
@@ -105,11 +108,12 @@ void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* 
 void VGE_PrintCharPos(struct stivale2_struct_tag_framebuffer* information, char c , uint32_t color , vec2 pos )
 {
 	uint32_t ix , iy;
-	for (ix = 0; ix < 8;ix++)
+ 	for (ix = 0; ix < vge_text_buffer_width;ix++)
 	{
-		for (iy = 0;iy < 8;iy++)
+		for (iy = 0;iy < vge_text_buffer_height;iy++)
 		{
 			if (font[(uint32_t)(c)][iy] >> ix & 1){
+
 			VGE_Pixel((information), (ix  + cursor_xp) + pos.x , (iy  + cursor_yp) + pos.y , color);
 			}
 		}
@@ -135,6 +139,15 @@ void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,cha
 		if (str[i] != '\n'){
 		cursor_xp += letter_spacing;
 		VGE_PrintCharPos(information , str[i], color , pos);
+		} else
+		{
+ 		cursor_yp += vge_text_buffer_height + letter_spacing  + 1; 
+		cursor_xp = 0;
+		}
+		if (str[i] == '\0')
+		{
+			cursor_xp = 0;
+			cursor_yp = 0;
 		}
 		i++;
 	}

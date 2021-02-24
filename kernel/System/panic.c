@@ -11,5 +11,10 @@ void kernel_panic(struct stivale2_struct_tag_framebuffer* fb, char* message , in
 	VGE_PrintString(fb , message , 7, rgb2hex(255,255,255));
 	VGE_PrintString(fb , "\nERROR:CODE: ", 7, rgb2hex(255,255,255));
 	VGE_PrintString(fb , int2str(err_code), 7, rgb2hex(255,255,255));
+
+ 	VGE_Rectangle(fb , 0 , (uint32_t)fb->framebuffer_height - 70, (uint32_t)fb->framebuffer_width, 70 , rgb2hex(200, 10,10));
+	VGE_Rectangle(fb, 0 , (uint32_t)fb->framebuffer_height - 70, (uint32_t)fb->framebuffer_width / 2, 70 , rgb2hex(255,10,10));
+	VGE_PrintStringPos(fb , "Reboot your system to re-continue.", 7, rgb2hex(255,255,255), CreateVec2( (uint32_t)fb->framebuffer_height / 2, (uint32_t)fb->framebuffer_width / 2));
+
 	while (1);
 }

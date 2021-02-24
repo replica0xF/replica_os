@@ -1,5 +1,8 @@
+ 
 #pragma once 
 #include "../../boot/stivale2.h"
+
+
 typedef struct vec
 {
 	uint32_t x;
@@ -18,7 +21,6 @@ void VGE_PrintChar(struct stivale2_struct_tag_framebuffer* information ,char c ,
 // for letter_spacing 7 is good, 
 void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* str , int letter_spacing,  uint32_t color);
 
-
 void VGE_PrintCharPos(struct stivale2_struct_tag_framebuffer* information ,char c , uint32_t color , vec2 pos );
 
 void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,char* str , int letter_spacing,  uint32_t color , vec2 pos);
@@ -33,3 +35,4 @@ void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , in
 
 void VGE_circle__(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int x, int y,  uint32_t color);
 void VGE_DrawCircle(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int radius,uint32_t color);
+ 

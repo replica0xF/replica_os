@@ -1,5 +1,5 @@
 rm image.hdd
-make clear
+make clean
 make 
 ./create.sh
 echo done ----
