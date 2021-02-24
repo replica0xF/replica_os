@@ -82,11 +82,13 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
  	VGE_DrawCircle(fb_hdr_tag , 600,600,50, rgb2hex(255,255,255));
 	VGE_DrawCircle(fb_hdr_tag , 400,400,50, rgb2hex(255,255,255));
  
+ 	Lobster_Log(fb_hdr_tag, 0, "GDT:");
+ 	InitGDT();
+ 	Lobster_Log(fb_hdr_tag, LOBSTER_INFO, " [LOADED]");
  
- 	 
- 
- 
-  	
+  	//  	815 + 2x + x = 1080  
+
+
  
 	//kernel_panic(fb_hdr_tag , "Fatal Invoked Error." , 30284);
 	for (;;)
