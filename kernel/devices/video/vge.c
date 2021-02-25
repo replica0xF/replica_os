@@ -4,7 +4,7 @@
 static uint32_t cursor_x = 0;
 static uint32_t cursor_y = 0;
 
- 
+static uint32_t bg_color;
 
 static uint32_t cursor_xp = 0;
 static uint32_t cursor_yp = 0;
@@ -26,7 +26,7 @@ vec2 CreateVec2(uint32_t x , uint32_t y)
 };
 void VGE_Pixel( int x, int y, uint32_t color)
 {
-	uint32_t offset = x + (fb_hdr_tag->framebuffer_pitch / sizeof(uint32_t)) * y;
+	size_t offset = x + (fb_hdr_tag->framebuffer_pitch / sizeof(uint32_t)) * y;
 	uint32_t* framebuffer_addr = (uint32_t*)fb_hdr_tag->framebuffer_addr;
 	framebuffer_addr[offset] = color;
 
@@ -45,9 +45,30 @@ void VGE_Rectangle(  int x, int y, int w , int h , uint32_t color)
 
 void VGE_SetBackgroundColor( uint32_t color )
 {
-	VGE_Rectangle(0,0,(uint32_t)(fb_hdr_tag->framebuffer_width) , (uint32_t)(fb_hdr_tag->framebuffer_height), color);
-}
+	bg_color = color;
 
+
+}
+uint8_t page_meta = 0;
+uint8_t page_index = 0;
+
+void VGE_ClearBG()
+{
+
+	for (int i=0;i < fb_hdr_tag->framebuffer_width;i++)
+	{
+		for (int j=0;j < fb_hdr_tag->framebuffer_height;j++)
+		{
+			VGE_Pixel(i,j,bg_color);
+		}
+	}
+	if (page_meta == 1)
+	{
+	VGE_PrintStringPos(int2str(page_index++) , 7,  rgb2hex(255,255,255) , CreateVec2(500,500));
+	page_meta = 0;
+	}
+
+}
 void VGE_PrintChar( char c , uint32_t color)
 {
 	uint32_t ix , iy;
@@ -88,18 +109,28 @@ char* int2str(int res) {
 void VGE_PrintString(char* str , int letter_spacing , uint32_t color)
 {
 	int i = 0;
+	if (cursor_y >= fb_hdr_tag->framebuffer_height - vge_text_buffer_height) 
+	{
+		page_meta = 1;
+			VGE_ClearBG();
+			VGE_ClearCursorPos();
+	}
 	while (str[i])
 
 	{
+
 
 		if (str[i] != '\n'){
 			cursor_x += letter_spacing;
 		VGE_PrintChar( str[i], color);
 		} else
 		{
+
 			cursor_y += letter_spacing  + vge_text_buffer_height + 1; 
 			cursor_x = 0;
 		}
+
+		
 		i++;
 	}
 
@@ -132,23 +163,21 @@ void VGE_ClearCursorPos()
 void VGE_PrintStringPos(char* str , int letter_spacing,  uint32_t color , vec2 pos)
 {
 	int i = 0;
+	if (cursor_yp >= fb_hdr_tag->framebuffer_height - vge_text_buffer_height) 
+	{
+				page_meta = 1;
+
+			VGE_ClearBG();
+			VGE_ClearCursorPos();
+	}
 	while (str[i])
 
 	{
-
-		if (str[i] != '\n'){
+		 
+		 
 		cursor_xp += letter_spacing;
 		VGE_PrintCharPos( str[i], color , pos);
-		} else
-		{
- 		cursor_yp += vge_text_buffer_height + letter_spacing  + 1; 
-		cursor_xp = 0;
-		}
-		if (str[i] == '\0')
-		{
-			cursor_xp = 0;
-			cursor_yp = 0;
-		}
+		
 		i++;
 	}
 

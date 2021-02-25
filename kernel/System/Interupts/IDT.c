@@ -1,5 +1,6 @@
 #include "IDT.h"
 #include "../../io/io.h"
+
 idt_entry_t entry[256];
 idtr_t idtr = {.size = 256 * sizeof(idt_entry_t), .offset = (uint64_t)entry };
 idt_entry_t new_entry(uint64_t offset)
@@ -52,6 +53,12 @@ static void Load_IDT()
 void Initialize_IDT(void)
 {
  	// Our expections, so we don't get into a crash
+ 	Lobster_Log(LOBSTER_INFO, "Loading ISR.\n");
 	Load_ISR();
+	Lobster_Log(LOBSTER_SUCCESS, "Loaded ISR.\n");
+
+	Lobster_Log(LOBSTER_INFO, "Loading IDT.\n");
 	Load_IDT();
+	Lobster_Log(LOBSTER_SUCCESS, "Loaded IDT.\n");
+
 }

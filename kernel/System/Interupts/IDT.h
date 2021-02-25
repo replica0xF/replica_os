@@ -3,6 +3,8 @@
 #define IDT_H
 #include <stdint.h>
 #include "exception.h"
+#include "../../../lobster/logger.h"
+
 typedef struct
 {
 	uint16_t size;

@@ -48,5 +48,10 @@ void InitGDT()
 
 	gdt[1] = (struct gdt_descriptor){ .access = 0b10011010, .flags = 0b00100000}; // code segment (cs)
 	gdt[2] =  (struct gdt_descriptor){ .access = 0b10010010, .flags = 0b00000000}; // data segment (ds)
+
+
+	Lobster_Log(LOBSTER_INFO, "Loading GDT.\n");
 	LoadGDT(); 
+	Lobster_Log(LOBSTER_SUCCESS, "Loading GDT.\n");
+
 }

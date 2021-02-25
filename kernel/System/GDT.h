@@ -1,6 +1,8 @@
 #ifndef GDT_H
 #define GDT_H
 #include <stdint.h>
+#include "../../lobster/logger.h"
+
 struct gdt_ptr 
 {
   uint16_t limit;

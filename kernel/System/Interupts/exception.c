@@ -25,11 +25,7 @@ static char* expections[] =
 
 void fatal_expection_catch(uint8_t x)
 {
-	if (expections[x] != NULL)
-	{
-	kernel_panic("Unknown expection.", x);
-
-	}
+	 
 	kernel_panic(expections[x], x);
 }
 
