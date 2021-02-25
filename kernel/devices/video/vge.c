@@ -24,31 +24,31 @@ vec2 CreateVec2(uint32_t x , uint32_t y)
 	pos.y = y;
 	return pos;
 };
-void VGE_Pixel(struct stivale2_struct_tag_framebuffer* information, int x, int y, uint32_t color)
+void VGE_Pixel( int x, int y, uint32_t color)
 {
-	uint32_t offset = x + (information->framebuffer_pitch / sizeof(uint32_t)) * y;
-	uint32_t* framebuffer_addr = (uint32_t*)information->framebuffer_addr;
+	uint32_t offset = x + (fb_hdr_tag->framebuffer_pitch / sizeof(uint32_t)) * y;
+	uint32_t* framebuffer_addr = (uint32_t*)fb_hdr_tag->framebuffer_addr;
 	framebuffer_addr[offset] = color;
 
 }
 
-void VGE_Rectangle(struct stivale2_struct_tag_framebuffer* information, int x, int y, int w , int h , uint32_t color)
+void VGE_Rectangle(  int x, int y, int w , int h , uint32_t color)
 {
 	for (int width =0; width < w;width++)
 	{
 		for (int height = 0; height < h;height++)
 		{
-			VGE_Pixel(information , width + x, height + y, color);
+			VGE_Pixel(  width + x, height + y, color);
 		}
 	}
 }
 
-void VGE_SetBackgroundColor(struct stivale2_struct_tag_framebuffer* information, uint32_t color )
+void VGE_SetBackgroundColor( uint32_t color )
 {
-	VGE_Rectangle(information,0,0,(uint32_t)(information->framebuffer_width) , (uint32_t)(information->framebuffer_height), color);
+	VGE_Rectangle(0,0,(uint32_t)(fb_hdr_tag->framebuffer_width) , (uint32_t)(fb_hdr_tag->framebuffer_height), color);
 }
 
-void VGE_PrintChar(struct stivale2_struct_tag_framebuffer* information, char c , uint32_t color)
+void VGE_PrintChar( char c , uint32_t color)
 {
 	uint32_t ix , iy;
 	for (ix = 0; ix < (uint32_t)vge_text_buffer_width;ix++)
@@ -56,7 +56,7 @@ void VGE_PrintChar(struct stivale2_struct_tag_framebuffer* information, char c ,
 		for (iy = 0;iy < (uint32_t)vge_text_buffer_height;iy++)
 		{
 			if (font[(uint32_t)(c)][iy] >> ix & 1){
-			VGE_Pixel(information,ix  + cursor_x ,iy  + cursor_y ,color);
+			VGE_Pixel(ix  + cursor_x ,iy  + cursor_y ,color);
 			}
 		}
 	}
@@ -85,7 +85,7 @@ char* int2str(int res) {
     return ret;
 }
 
-void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* str , int letter_spacing , uint32_t color)
+void VGE_PrintString(char* str , int letter_spacing , uint32_t color)
 {
 	int i = 0;
 	while (str[i])
@@ -94,7 +94,7 @@ void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* 
 
 		if (str[i] != '\n'){
 			cursor_x += letter_spacing;
-		VGE_PrintChar(information , str[i], color);
+		VGE_PrintChar( str[i], color);
 		} else
 		{
 			cursor_y += letter_spacing  + vge_text_buffer_height + 1; 
@@ -105,7 +105,7 @@ void VGE_PrintString(struct stivale2_struct_tag_framebuffer* information ,char* 
 
 }
 
-void VGE_PrintCharPos(struct stivale2_struct_tag_framebuffer* information, char c , uint32_t color , vec2 pos )
+void VGE_PrintCharPos(char c , uint32_t color , vec2 pos )
 {
 	uint32_t ix , iy;
  	for (ix = 0; ix < vge_text_buffer_width;ix++)
@@ -114,7 +114,7 @@ void VGE_PrintCharPos(struct stivale2_struct_tag_framebuffer* information, char 
 		{
 			if (font[(uint32_t)(c)][iy] >> ix & 1){
 
-			VGE_Pixel((information), (ix  + cursor_xp) + pos.x , (iy  + cursor_yp) + pos.y , color);
+			VGE_Pixel( (ix  + cursor_xp) + pos.x , (iy  + cursor_yp) + pos.y , color);
 			}
 		}
 	}
@@ -129,7 +129,7 @@ void VGE_ClearCursorPos()
 }
 
 
-void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,char* str , int letter_spacing,  uint32_t color , vec2 pos)
+void VGE_PrintStringPos(char* str , int letter_spacing,  uint32_t color , vec2 pos)
 {
 	int i = 0;
 	while (str[i])
@@ -138,7 +138,7 @@ void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,cha
 
 		if (str[i] != '\n'){
 		cursor_xp += letter_spacing;
-		VGE_PrintCharPos(information , str[i], color , pos);
+		VGE_PrintCharPos( str[i], color , pos);
 		} else
 		{
  		cursor_yp += vge_text_buffer_height + letter_spacing  + 1; 
@@ -154,7 +154,7 @@ void VGE_PrintStringPos(struct stivale2_struct_tag_framebuffer* information ,cha
 
 }
 
-void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , int y0 , int x1, int y1, uint32_t color)
+void VGE_Line( int x0 , int y0 , int x1, int y1, uint32_t color)
 {
 	uint32_t dx = x1 - x0;
 	uint32_t dy = y1 - y0;
@@ -163,7 +163,7 @@ void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , in
 
 	for (int x = x0; x < x1; x++)
 	{
-		VGE_Pixel(information,x,y,color);
+		VGE_Pixel(x,y,color);
 		if (D > 0)
 		{
 			y = y+ 1;
@@ -173,25 +173,25 @@ void VGE_Line(struct stivale2_struct_tag_framebuffer* information  , int x0 , in
 	}
 }
 
-void VGE_circle__(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int x, int y,  uint32_t color)
+void VGE_circle__( int xc, int yc,int x, int y,  uint32_t color)
 {
  
 
-	VGE_Pixel(information,xc+x, yc+y, color);
-    VGE_Pixel(information,xc-x, yc+y, color);
-    VGE_Pixel(information,xc+x, yc-y, color);
-    VGE_Pixel(information,xc-x, yc-y, color);
-    VGE_Pixel(information,xc+y, yc+x, color);
-    VGE_Pixel(information,xc-y, yc+x, color);
-    VGE_Pixel(information,xc+y, yc-x, color);
-    VGE_Pixel(information,xc-y, yc-x, color);
+	VGE_Pixel(xc+x, yc+y, color);
+    VGE_Pixel(xc-x, yc+y, color);
+    VGE_Pixel(xc+x, yc-y, color);
+    VGE_Pixel(xc-x, yc-y, color);
+    VGE_Pixel(xc+y, yc+x, color);
+    VGE_Pixel(xc-y, yc+x, color);
+    VGE_Pixel(xc+y, yc-x, color);
+    VGE_Pixel(xc-y, yc-x, color);
 }
 
-void VGE_DrawCircle(struct stivale2_struct_tag_framebuffer* information, int xc, int yc,int radius,uint32_t color)
+void VGE_DrawCircle( int xc, int yc,int radius,uint32_t color)
 {
 	int x = 0, y = radius;
 	int d = 3 - 2 * radius;
-	VGE_circle__(information, xc,yc,x,y,color);
+	VGE_circle__( xc,yc,x,y,color);
 	while (y >= x)
 	{
 		x++;
@@ -205,7 +205,7 @@ void VGE_DrawCircle(struct stivale2_struct_tag_framebuffer* information, int xc,
 		{
 			d = d + 4 * x + 6;
 		}
-		VGE_circle__(information,xc,yc,x,y,color);
+		VGE_circle__(xc,yc,x,y,color);
 
 	}
 }

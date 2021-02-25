@@ -6,32 +6,37 @@ void Lobster_InitLogger(int offset)
 {
 	logger_pos_y = offset;
 }
-void Lobster_Log(struct stivale2_struct_tag_framebuffer* fb, enum lob_sym_t log_sym, char* message)
+void Lobster_Log(  enum lob_sym_t log_sym, char* message)
 {
  
 	 logger_pos_y += 8;
 	switch (log_sym){
 		case LOBSTER_ERROR: // red
 		{
-		VGE_PrintString(fb , message , 7, rgb2hex(255,0,0));
+		VGE_PrintString(  message , 7, rgb2hex(255,0,0));
 
 		} break;
 
 		case LOBSTER_WARNING: // yellow
 		{
-		VGE_PrintString(fb , message, 7, rgb2hex(250,218,94) );
+		VGE_PrintString( message, 7, rgb2hex(250,218,94) );
 
 		} break;
 		
 		case LOBSTER_INFO: // 
 		{
-		VGE_PrintString(fb , message, 7, rgb2hex(219,237,255)  );
+		VGE_PrintString( message, 7, rgb2hex(219,237,255)  );
+
+		} break;
+		case LOBSTER_SUCCESS: // 
+		{
+		VGE_PrintString( message, 7, rgb2hex(0,255,0)  );
 
 		} break;
 		
 		default : // regular
 		{
-		VGE_PrintString(fb , message, 7, rgb2hex(100,100,100));
+		VGE_PrintString( message, 7, rgb2hex(100,100,100));
 
 		} break;
 	}
