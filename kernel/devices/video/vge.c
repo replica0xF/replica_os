@@ -49,19 +49,25 @@ void VGE_SetBackgroundColor( uint32_t color )
 
 
 }
-uint8_t page_meta = 0;
-uint8_t page_index = 0;
+uint64_t page_meta = 0;
+uint64_t page_index = 0;
 
 void VGE_ClearBG()
 {
-
+ 	uint32_t* framebuffer_addr = (uint32_t*)fb_hdr_tag->framebuffer_addr;
+ 
 	for (int i=0;i < fb_hdr_tag->framebuffer_width;i++)
 	{
 		for (int j=0;j < fb_hdr_tag->framebuffer_height;j++)
 		{
-			VGE_Pixel(i,j,bg_color);
+ 			framebuffer_addr[j + i] = bg_color;
+ 			framebuffer_addr[i] = bg_color;
+ 			framebuffer_addr[j] = bg_color;
+ 
+
 		}
-	}
+ 	        framebuffer_addr+=fb_hdr_tag->framebuffer_height;
+ 	}
 	if (page_meta == 1)
 	{
 	VGE_PrintStringPos(int2str(page_index++) , 7,  rgb2hex(255,255,255) , CreateVec2(500,500));
@@ -134,6 +140,38 @@ void VGE_PrintString(char* str , int letter_spacing , uint32_t color)
 		i++;
 	}
 
+}
+//
+void VGE_SetX(int x){
+	cursor_x = x;
+}
+void VGE_SetY(int y){
+	cursor_y = y;
+}
+//
+int VGE_GetX(){
+	return cursor_x;
+}
+int VGE_GetY()
+{
+	return cursor_y;
+}
+
+
+//
+void VGE_SetXp(int x){
+	cursor_xp = x;
+}
+void VGE_SetYp(int y){
+	cursor_yp = y;
+}
+//
+int VGE_GetXp(){
+	return cursor_xp;
+}
+int VGE_GetYp()
+{
+	return cursor_yp;
 }
 
 void VGE_PrintCharPos(char c , uint32_t color , vec2 pos )

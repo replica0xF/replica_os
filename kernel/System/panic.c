@@ -19,7 +19,7 @@ void kernel_panic(char* message , int err_code)
  	VGE_Rectangle( 0 , (uint32_t)fb_hdr_tag->framebuffer_height - 70, (uint32_t)fb_hdr_tag->framebuffer_width, 70 , rgb2hex(200, 10,10));
 	VGE_Rectangle(  0 , (uint32_t)fb_hdr_tag->framebuffer_height - 70, (uint32_t)fb_hdr_tag->framebuffer_width / 2, 70 , rgb2hex(255,10,10));
 	
-	VGE_PrintStringPos( "Reboot your system to re-continue.", 7, rgb2hex(255,255,255), CreateVec2( (uint32_t)fb_hdr_tag->framebuffer_height / 2, (uint32_t)fb_hdr_tag->framebuffer_width / 2));
+	VGE_PrintStringPos( "Reboot your system to continue.", 7, rgb2hex(255,255,255), CreateVec2( (uint32_t)fb_hdr_tag->framebuffer_height / 2, (uint32_t)fb_hdr_tag->framebuffer_width / 2));
 
 	while (1);
 }

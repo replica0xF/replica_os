@@ -35,7 +35,16 @@ void VGE_Line(  int x0 , int y0 , int x1, int y1, uint32_t color);
 void VGE_circle__(int xc, int yc,int x, int y,  uint32_t color);
 void VGE_DrawCircle(int xc, int yc,int radius,uint32_t color);
  
- 
-
-
+//
+void VGE_SetX(int x);
+void VGE_SetY(int y);
+//
+int VGE_GetX();
+int VGE_GetY();
+//
+void VGE_SetXp(int x);
+void VGE_SetYp(int y);
+//
+int VGE_GetXp();
+int VGE_GetYp();
 void VGE_ClearBG();

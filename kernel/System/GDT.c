@@ -54,4 +54,6 @@ void InitGDT()
 	LoadGDT(); 
 	Lobster_Log(LOBSTER_SUCCESS, "Loading GDT.\n");
 
+	
+
 }
