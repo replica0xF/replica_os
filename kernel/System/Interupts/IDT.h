@@ -2,13 +2,14 @@
 #ifndef IDT_h
 #define IDT_H
 #include <stdint.h>
+#include "exception.h"
 typedef struct
 {
 	uint16_t size;
 	uint64_t offset;
 
 } __attribute__((packed)) idtr_t;
- 
+
 typedef struct
 {
     uint16_t offset_low16;

@@ -2,7 +2,7 @@
 #include "../../io/io.h"
 idt_entry_t entry[256];
 idtr_t idtr = {.size = 256 * sizeof(idt_entry_t), .offset = (uint64_t)entry };
-static idt_entry_t new_entry(uint64_t offset)
+idt_entry_t new_entry(uint64_t offset)
 {
 	return (idt_entry_t)
 	{
@@ -26,9 +26,33 @@ static void Load_IDT()
 		);
 }
 
-  
+ void Load_ISR()
+ {
+ 	entry[0] = new_entry((uint64_t)&ex_0);
+	entry[1] = new_entry((uint64_t)&ex_1);
+	entry[2] = new_entry((uint64_t)&ex_2);
+	entry[3] = new_entry((uint64_t)&ex_3);
+	entry[4] = new_entry((uint64_t)&ex_4);
+	entry[5] = new_entry((uint64_t)&ex_5);
+	entry[6] = new_entry((uint64_t)&ex_6);
+	entry[7] = new_entry((uint64_t)&ex_7);
+	entry[8] = new_entry((uint64_t)&ex_8);
+	entry[10] = new_entry((uint64_t)&ex_10);
+	entry[11] = new_entry((uint64_t)&ex_11);
+	entry[12] = new_entry((uint64_t)&ex_12);
+	entry[13] = new_entry((uint64_t)&ex_13);
+	entry[14] = new_entry((uint64_t)&ex_14);
+	entry[16] = new_entry((uint64_t)&ex_16);
+	entry[17] = new_entry((uint64_t)&ex_17);
+	entry[18] = new_entry((uint64_t)&ex_18);
+	entry[19] = new_entry((uint64_t)&ex_19);
+	entry[20] = new_entry((uint64_t)&ex_20);
+	entry[30] = new_entry((uint64_t)&ex_30);
+ }
 void Initialize_IDT(void)
 {
-
+	kernel_panic("Self-Invoked [IDT] " , 69420);
+	// Our expections, so we don't get into a crash
+	Load_ISR();
 	Load_IDT();
 }
