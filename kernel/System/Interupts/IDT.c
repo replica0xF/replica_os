@@ -51,8 +51,7 @@ static void Load_IDT()
  }
 void Initialize_IDT(void)
 {
-	kernel_panic("Self-Invoked [IDT] " , 69420);
-	// Our expections, so we don't get into a crash
+ 	// Our expections, so we don't get into a crash
 	Load_ISR();
 	Load_IDT();
 }
