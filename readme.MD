@@ -11,7 +11,6 @@ cd replica_os
 ---
 # TODOS
 
-- IDT
 - Keyboard 
 ---
 
