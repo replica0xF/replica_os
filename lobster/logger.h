@@ -1,6 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
-#include "kernel/devices/video/vge.h"
+#include "kernel/drivers/video/vge.h"
  
 typedef enum lob_sym_t
 {
