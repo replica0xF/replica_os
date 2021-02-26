@@ -6,10 +6,10 @@ TARGET := myos.elf
 # We are only using "cc" as a placeholder here. It may work by using
 # the host system's toolchain, but this is not guaranteed.
 CC = cc
- 
+ASMC = nasm
 # User controllable CFLAGS.
 CFLAGS = -Wall -Wextra -O2 -pipe
- 
+ASMFLAGS = 
 # Internal link flags that should not be changed by the user.
 LDINTERNALFLAGS :=  \
 	-Tlinker.ld \
@@ -33,7 +33,9 @@ INTERNALCFLAGS  :=           \
  
 # Use find to glob all *.c files in the directory and extract the object names.
 CFILES := $(shell find ./ -type f -name '*.c')
+ASMFILES := $(shell find ./ -type f -name '*.asm')
 OBJ    := $(CFILES:.c=.o)
+OBJ    += $(ASMFILES:.asm=._asm)
  
 # Targets that do not actually build a file of the same name.
 .PHONY: all clean
@@ -48,6 +50,9 @@ $(TARGET): $(OBJ)
 # Compilation rules for *.c files.
 %.o: %.c
 	$(CC) $(CFLAGS) $(INTERNALCFLAGS) -c $< -o $@
+ 
+%._asm: %.asm
+	$(ASMC) $(ASMFLAGS) $^ -f elf64 -o $@
  
 # Remove object files and the final executable.
 clean:

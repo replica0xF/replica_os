@@ -10,6 +10,8 @@ void Lobster_Log(  enum lob_sym_t log_sym, char* message)
 {
  
 	 logger_pos_y += 8;
+		VGE_PrintString(  "[Logger]: " , 7, rgb2hex(90,90,90));
+
 	switch (log_sym){
 		case LOBSTER_ERROR: // red
 		{

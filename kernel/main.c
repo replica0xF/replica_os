@@ -5,8 +5,7 @@
 #include <stddef.h>
 #include "System/Interupts/IDT.h"
 #include "../lobster/logger.h"
-
-static uint8_t ui_ver = 2;
+ 
 void ui()
 {
 
@@ -22,6 +21,7 @@ void ui()
  	VGE_PrintString("\n(c) 2021: ReplicaOS Foundation\n" , 8 , rgb2hex(255,255,255));
  	VGE_PrintString("Start typing!\n" , 8 , rgb2hex(100,100,100));
 }
+ 
 void kernel_main(struct stivale2_struct* stivale2_struct)
 {
 	
@@ -31,11 +31,12 @@ void kernel_main(struct stivale2_struct* stivale2_struct)
 
  
  	InitGDT(); 
+
  	Initialize_IDT();
+
 	VGE_SetBackgroundColor(rgb2hex(20,20,20));
- 	VGE_ClearBG(); 
- 	ui();
- 	 	
+	VGE_ClearBG();
+	ui();
   	Boot_Loop();
 }
 

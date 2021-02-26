@@ -2,19 +2,17 @@
 #include "../../io/io.h"
 
 idt_entry_t entry[256];
-idtr_t idtr = {.size = 256 * sizeof(idt_entry_t), .offset = (uint64_t)entry };
+idtr_t idtr = {.size = 256 * sizeof(idt_entry_t), .addr = (uint64_t)entry };
 idt_entry_t new_entry(uint64_t offset)
 {
-	return (idt_entry_t)
-	{
-		.cs = 0x08,
-		.offset_low16 = offset & 0xFFFF,
-		.offset_mid16 = (offset >> 16) & 0xFFFF,
-		.offset_high32 = (offset >> 32) & 0xFFFFFFFF,
-		.zero =0,
-		.ist = 0,
-		.attributes = 0x8e
-	};
+  return (idt_entry_t){
+        .selector = 0x08,
+        .offset_lo = offset & 0xFFFF,
+        .offset_mid = (offset >> 16) & 0xFFFF,
+        .offset_hi = (offset >> 32) & 0xFFFFFFFF,
+        .ist = 0,
+        .zero = 0,
+        .type_attr = 0x8e};
 }
 static void Load_IDT()
 {
@@ -26,37 +24,12 @@ static void Load_IDT()
 		 
 		);
 }
-static void PIC_Remap() 
-{ 
+  
 
-	unsigned char a1,a2;
-	a1 = inb(0x20);
-	a2 = inb(0xA0);
-
-
-	outb(0x20 , 0x11); // MASTER PIC 
-	outb(0xA0 , 0x11); // SLAVE PIC.
-
-	outb(0x21, 0x20);
-	outb(0xA1, 0x28);
-
-
-	outb(0x21, 0x4);
-	outb(0xA1, 0x2);
-
-
-	outb(0x21, 0x01);
-	outb(0xA1, 0x01);
-
-	// restore
-	outb(0x21, a1);
-	outb(0xA1, a2);
-	Lobster_Log(LOBSTER_SUCCESS, "Remapped PIC.\n");
-
-}
  void Load_ISR()
  {
- 	PIC_Remap();
+ 
+
  	entry[0] = new_entry((uint64_t)&ex_0);
 	entry[1] = new_entry((uint64_t)&ex_1);
 	entry[2] = new_entry((uint64_t)&ex_2);
@@ -77,10 +50,13 @@ static void PIC_Remap()
 	entry[19] = new_entry((uint64_t)&ex_19);
 	entry[20] = new_entry((uint64_t)&ex_20);
 	entry[30] = new_entry((uint64_t)&ex_30);
- }
+ 
+ 
+	
+}
 void Initialize_IDT(void)
 {
- 	// Our expections, so we don't get into a crash
+
  	Lobster_Log(LOBSTER_INFO, " Loading ISR.\n");
 	Load_ISR();
 	Lobster_Log(LOBSTER_SUCCESS, "Loaded ISR.\n");
